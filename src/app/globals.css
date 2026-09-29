@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-950: #051326;
+  --color-navy-900: #0B2545;
+  --color-navy-800: #134074;
+  --color-navy-700: #1D5897;
+  --color-navy-600: #2A73BA;
+  --color-navy-500: #3E8BDB;
+  
+  --color-teal-600: #0E7490;
+  --color-teal-500: #00A896;
+  --color-teal-400: #14B8A6;
+  --color-teal-100: #CCFBF1;
+  --color-teal-50: #F0FDFA;
+
+  --color-amber-gold: #EE964B;
+  --color-amber-gold-hover: #DF8435;
+  --color-amber-gold-light: #FEF5EA;
+
+  --color-slate-surface: #F8FAFC;
+  --color-slate-border: #E2E8F0;
+}
+
+:root {
+  --maritime-navy: #0B2545;
+  --ocean-teal: #134074;
+  --gold-accent: #EE964B;
+  --slate-bg: #F8FAFC;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F8FAFC;
+  color: #0F172A;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-panel-dark {
+  background: rgba(11, 37, 69, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.text-gradient-navy {
+  background: linear-gradient(135deg, #0B2545 0%, #134074 60%, #00A896 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #EE964B 0%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Maritime waves & grid pattern */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(19, 64, 116, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-grid-pattern-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.glow-gold {
+  box-shadow: 0 0 25px rgba(238, 150, 75, 0.35);
+}
+
+.glow-teal {
+  box-shadow: 0 0 25px rgba(0, 168, 150, 0.35);
+}
