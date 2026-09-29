@@ -1,12 +1,13 @@
 import type { NextConfig } from "next";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
+const BACKEND_URL = process.env.BACKEND_URL;
 
 const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
   async rewrites() {
+    if (!BACKEND_URL) return [];
     return [
       {
         source: "/api/:path*",
