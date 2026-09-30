@@ -8,10 +8,33 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: [CONFIG.CORS_ORIGIN, 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1') ||
+      origin.endsWith('.vercel.app') ||
+      (CONFIG.CORS_ORIGIN && origin === CONFIG.CORS_ORIGIN)
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true,
 }));
 app.use(express.json());
+
+// Serverless DB connection check
+app.use(async (_req, _res, next) => {
+  if (CONFIG.MONGODB_URI) {
+    try {
+      await connectDB();
+    } catch {
+      // Handled inside connectDB fallback
+    }
+  }
+  next();
+});
 
 // Healthcheck & Info
 app.get('/health', (req: Request, res: Response) => {
@@ -36,7 +59,7 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// Start Server
+// Start Server when running standalone (not inside Vercel serverless)
 async function startServer() {
   await connectDB();
 
@@ -56,9 +79,19 @@ async function startServer() {
   });
 }
 
-startServer().catch((err) => {
-  console.error('Fatal error starting backend server:', err);
-  process.exit(1);
-});
+if (!process.env.VERCEL) {
+  startServer().catch((err) => {
+    console.error('Fatal error starting backend server:', err);
+    process.exit(1);
+  });
+} else {
+  // Pre-warm database connection when loaded inside Vercel
+  connectDB().catch((err) => console.warn('MongoDB connection warning:', err));
+}
 
 export default app;
+// Export CommonJS for Vercel Node runtime
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = app;
+  module.exports.default = app;
+}
